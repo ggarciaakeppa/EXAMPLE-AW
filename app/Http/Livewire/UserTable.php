@@ -332,14 +332,7 @@ class UserTable extends DataTableComponent
             Column::make("Email", "email")
                 ->sortable()
                 ->searchable(),
-     
-                Column::make("Empresa", "company")
-                ->sortable()
-                ->searchable(),
-                Column::make("Posición o Puesto", "position")
-                ->sortable()
-                ->searchable(),
-                BooleanColumn::make('Activo','status')
+          BooleanColumn::make('Activo','status')
                 ->sortable(),
             Column::make("Creado", "created_at")
                 ->sortable()

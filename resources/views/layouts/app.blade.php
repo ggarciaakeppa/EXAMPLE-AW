@@ -21,6 +21,7 @@
         <style>
             [x-cloak] { display: none !important; }
         </style>
+        
         <link rel="stylesheet" href="{{ asset('/assets/custom/modal/modal.css') }}">
 
         <!-- Theme CSS -->
@@ -28,7 +29,7 @@
         <link rel="stylesheet" href="{{ asset('assets/css/theme.bundle.css') }}" id="stylesheetLight" />
         <link rel="stylesheet" href="{{ asset('assets/css/theme-dark.bundle.css') }}" id="stylesheetDark" />
 
-        <style>body { display: none; }</style>
+        <!-- <style>body { display: none; }</style> -->
         @else
         @if($showarray['colorScheme'] == 'light')
         <link rel="stylesheet" href="{{ asset('assets/css/theme.bundle.css') }}" />
@@ -47,13 +48,13 @@
         @livewireStyles
 
         <!-- Scripts -->
-        {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+        <!-- @vite(['resources/css/app.css', 'resources/js/app.js']) -->
         @vite(['resources/js/app.js'])
 
         <!-- JETSTREAM -->
 
         <!-- Title -->
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ config('app.name', 'Akeppa') }}</title>
     </head>
     <body class="font-sans antialiased">
         <x-jet-banner />
@@ -61,7 +62,7 @@
         <!-- OFFCANVAS -->
 
         <!-- NAVIGATION -->
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen">
             @livewire('navigation-menu')
 
             <div class="main-content">
@@ -85,6 +86,8 @@
         <!-- Map JS -->
         <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
 
+        <script src="{{ asset('/assets/custom/jquery/jquery-3.6.0.min.js') }}" crossorigin="anonymous"></script>
+
         @livewireScripts
 
         @stack('js')
@@ -94,5 +97,7 @@
 
         <!-- Theme JS -->
         <script src="{{ asset('assets/js/theme.bundle.js') }}"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
     </body>
 </html>

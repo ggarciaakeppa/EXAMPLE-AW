@@ -28,7 +28,7 @@ $showarray = Config::get('theme.var');
         <a href="#" id="sidebarIcon" class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <div class="avatar avatar-sm avatar-online">
             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                <img src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" class="avatar-img rounded-circle">
+            <img src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" class="avatar-img rounded-circle">
             @endif
           </div>
         </a>
@@ -90,33 +90,7 @@ $showarray = Config::get('theme.var');
         </li>
        
       </ul>
-      @if(auth()->user()->can('ingresos'))
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          @if(Route::is('ingreso.auto.*') )
-          <a class="nav-link" href="#ingreso" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="ingreso" :active="request()->routeIs('ingreso.auto.*')">
-          @else
-          <a class="nav-link" href="#ingreso" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="ingreso" :active="request()->routeIs('ingreso.auto.*')">
-          @endif
-          <i class="fe fe-users"></i> Ingreso Auto
-          </a>
-          @if(Route::is('ingreso.*') )
-          <div class="collapse show" id="ingreso">
-          @else
-          <div class="collapse" id="ingreso">
-          @endif
-            <ul class="nav nav-sm flex-column">
-              <li class="nav-item">
-                <x-jet-responsive-nav-link href="{{ route('ingreso.auto.index') }}" class="nav-link" :active="request()->routeIs('ingreso.auto.index')">
-                  Ingresos
-                </x-jet-responsive-nav-link>
-              </li>
-            </ul>
-          </div>
-        </li>
-      </ul>
-      @endif
-      @if(auth()->user()->can('usuarios'))
+      
       <!-- Divider -->
       <hr class="navbar-divider my-3">
 
@@ -149,33 +123,8 @@ $showarray = Config::get('theme.var');
           </div>
         </li>
       </ul>
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          @if(Route::is('products.*') )
-          <a class="nav-link" href="#users" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="users" :active="request()->routeIs('users.*')">
-          @else
-          <a class="nav-link" href="#users" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="users" :active="request()->routeIs('users.*')">
-          @endif
-          <i class="fe fe-users"></i> Productos
-          </a>
-          @if(Route::is('products.*') )
-          <div class="collapse show" id="users">
-          @else
-          <div class="collapse" id="users">
-          @endif
-            <ul class="nav nav-sm flex-column">
-              <li class="nav-item">
-                <x-jet-responsive-nav-link href="{{ route('users.index') }}" class="nav-link" :active="request()->routeIs('users.index')">
-                  Administración
-                </x-jet-responsive-nav-link>
-              </li>
-          
-            </ul>
-          </div>
-        </li>
-      </ul>
 
-      @endif
+  
       
 
       <!-- Push content down -->
@@ -208,9 +157,9 @@ $showarray = Config::get('theme.var');
             <a href="#" id="sidebarIconCopy" class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <div class="avatar avatar-sm avatar-online">
                 @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                    <img src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" class="avatar-img rounded-circle">
+                <img src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" class="avatar-img rounded-circle">
                 @else
-                    <img src="/assets/img/avatars/profiles/avatar-1.jpg" alt="Domiti profile" class="avatar-img rounded-circle">
+                <img src="/assets/img/avatars/profiles/avatar-1.jpg" alt="Domiti profile" class="avatar-img rounded-circle">
                 @endif
               </div>
             </a>

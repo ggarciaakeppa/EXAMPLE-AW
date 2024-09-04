@@ -61,17 +61,10 @@
                 <input class="form-control" type="password" id="password" name="password" required autocomplete="current-password" placeholder="Ingresa tu contraseña">
 
                 <!-- Icon -->
-                <span class="input-group-text">
+                <span class="input-group-text" id="toggle-password-visibility">
                   <i class="fe fe-eye"></i>
                 </span>
 
-              </div>
-
-              <div class="block mt-4">
-                  <label for="remember_me" class="flex items-center">
-                      <x-jet-checkbox id="remember_me" name="remember" />
-                      <span class="ml-2 text-sm text-gray-600">{{ __('Recuerdame') }}</span>
-                  </label>
               </div>
 
             </div>
@@ -105,5 +98,26 @@
 
         </div>
       </div> <!-- / .row -->
-    </div>
+    </div>  
 </x-guest-layout>
+
+<script>
+  $(document).ready(function() {
+    $('#toggle-password-visibility').on('click', function() {
+  
+      var passwordInput = $('#password');
+      var icon = $(this).find('i');
+
+      // Alterna el tipo de input entre 'password' y 'text'
+      if (passwordInput.attr('type') === 'password') {
+        passwordInput.attr('type', 'text');
+        // Cambia el ícono para mostrar el estado actual
+        icon.removeClass('fe-eye').addClass('fe-eye-off');
+      } else {
+        passwordInput.attr('type', 'password');
+        // Cambia el ícono para mostrar el estado actual
+        icon.removeClass('fe-eye-off').addClass('fe-eye');
+      }
+    });
+  });
+</script>

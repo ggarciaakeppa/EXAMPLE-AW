@@ -39,18 +39,17 @@ Route::post('/forgot-password', function (Request $request) {
                 : back()->withErrors(['email' => __($status)]);
 })->middleware('guest')->name('password.email');
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session')
 ])->group(function () {
-    Route::get('/user/profile/security', [CustomUserProfileController::class, 'show'])->name('profile.security'); 
-    return view('welcome');
-    
+    Route::get('/', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    Route::get('/user/profile/security', [CustomUserProfileController::class, 'show'])->name('profile.security');
 });
+
 
 Route::middleware([
     'auth:sanctum',

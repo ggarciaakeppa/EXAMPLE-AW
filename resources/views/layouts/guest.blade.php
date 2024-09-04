@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/theme.bundle.css') }}" />
     
     <!-- Title -->
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Akeppa') }}</title>
   </head>
   <body class="d-flex align-items-center bg-auth border-top border-top-2 border-primary">
         {{ $slot }}
