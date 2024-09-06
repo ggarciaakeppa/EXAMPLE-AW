@@ -3,15 +3,12 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Password;
-use Mockery\Generator\StringManipulation\Pass\Pass;
 
-class RestorePassword extends Mailable
+// Implementacion de colas implements ShouldQueue, solo ya en ambiente de prod
+class RestorePassword extends Mailable 
 {
     use Queueable, SerializesModels;
 

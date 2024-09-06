@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bienvenido a Viadrop</title>
+    <title>Contraseña Actualizada</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -30,10 +30,6 @@
             color: #777;
             text-align: center;
         }
-        .footer a {
-            color: #333;
-            text-decoration: none;
-        }
         .title {
             display: none;
         }
@@ -41,22 +37,18 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="title">Correo de Bienvenida</h1>
+        <h1 class="title">Actualización contraseña</h1>
         <div class="logo">
-            <img src="{{ url('/img/logos/mailLogo.png') }}" alt="Logo de Viadrop" >
+            <img src="{{ url('/img/logos/mailLogo.png') }}" alt="Logo de Viadrop">
         </div>
-        <h2>Bienvenido a Viadrop</h2>
+        <h2>Contraseña Actualizada</h2>
         <div class="message">
             <p>Hola {{ $user->name }},</p>
-            <p>Nos complace darte la bienvenida a Viadrop, tu herramienta integral para la gestión y optimización de rutas. Con nuestra plataforma, podrás planificar, monitorear y mejorar la eficiencia de tus rutas en tiempo real. Gracias por confiar en nosotros para optimizar la logística de tu empresa.</p>
-            <p>Para comenzar, utiliza la siguiente contraseña temporal para iniciar sesión:</p>
-            <p><strong>Contraseña: {{ $generatedPassword }}</strong></p>
-            <p>Te recomendamos cambiar esta contraseña después de tu primer acceso para garantizar la seguridad de tu cuenta.</p>
+            <p>Te informamos que tu contraseña ha sido actualizada exitosamente en Viadrop. Si no realizaste esta acción, por favor contáctanos de inmediato.</p>
             <p>Si tienes alguna pregunta o necesitas ayuda, no dudes en contactarnos. Estamos aquí para asistirte.</p>
         </div>
         <div class="footer">
-            <p>Gracias y bienvenido a Viadrop...</p>
-            <p>Para ingresar al sistema, visita: <a href="{{ url('/') }}">Iniciar Sesión</a></p>
+            <p>Gracias por usar Viadrop.</p>
         </div>
     </div>
 </body>

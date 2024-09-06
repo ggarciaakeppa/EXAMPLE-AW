@@ -78,13 +78,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected function defaultProfilePhotoUrl()
     {
-        /* $name = trim(collect(explode(' ', $this->name))->map(function ($segment) {
-            return mb_substr($segment, 0, 1);
-        })->join(' '));
 
-        $last_name = trim(collect(explode(' ', $this->last_name))->map(function ($segment) {
-            return mb_substr($segment, 0, 1);
-        })->join(' ')); */
 
         $name = mb_substr($this->name, 0, 1);
 

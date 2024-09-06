@@ -2,11 +2,12 @@
 
 namespace App\Actions\Fortify;
 
+use App\Mail\PasswordUpdatedNotification;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\UpdatesUserPasswords;
-
 class UpdateUserPassword implements UpdatesUserPasswords
 {
     use PasswordValidationRules;
@@ -28,5 +29,7 @@ class UpdateUserPassword implements UpdatesUserPasswords
         $user->forceFill([
             'password' => Hash::make($input['password']),
         ])->save();
+
+        Mail::to($user->email)->send(new PasswordUpdatedNotification($user));
     }
 }

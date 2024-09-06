@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tu contraseña ha sido actualizada</title>
+    <title>Solicitud restablecimiento de contraseña</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -43,7 +43,7 @@
     <div class="container">
         <h1 class="title">Restablecimiento de contraseña</h1>
         <div class="logo">
-            <img src="{{ url('/img/logos/logo.png') }}" alt="Logo de la empresa" style="max-width: 50px; width: 100%; height: auto;">
+            <img src="{{ url('/img/logos/mailLogo.png') }}" alt="Logo de la empresa" >
         </div>
         <h2>Solicitud restablecimiento de contraseña</h2>
         <div class="message">
