@@ -10,12 +10,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Columns\BooleanColumn;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ImageColumn;
-use Rappasoft\LaravelLivewireTables\Views\Columns\ComponentColumn;
-
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Support\Facades\Password as Reset;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -87,6 +84,9 @@ class UserTable extends DataTableComponent
     
             }
         }
+
+        $this->dispatchBrowserEvent('alerta', ['type' => 'success', 'message' => 'Datos guardados correctamente']);
+        $this->resetModal();
     }
 
     protected function updateVerifiedUser(User $user, array $input): void
@@ -143,6 +143,77 @@ class UserTable extends DataTableComponent
         ];
     }
 
+    public function activate() {
+
+        foreach($this->getSelected() as $id) {
+
+            $user = User::find($id);
+
+            $user->status = 1;
+
+            DB::table('sessions')->where('user_id',$id)->delete();
+
+            activity()
+                ->withProperties(['useraffected' => $id])
+                ->log('Usuario activado');
+
+            $user->save();   
+
+        }
+
+        $this->dispatchBrowserEvent('alerta', ['type' => 'success', 'message' => 'Usuarios activados con exito!']);
+
+        $this->emit('refreshDatatable');
+ 
+    }
+
+    public function deactivate() {
+
+        foreach($this->getSelected() as $id) {
+
+            $user = User::find($id);
+
+            $user->status = 0;
+
+            DB::table('sessions')->where('user_id',$id)->delete();
+
+            activity()
+                ->withProperties(['useraffected' => $id])
+                ->log('Usuario desactivado');
+
+            $user->save();   
+
+        }
+ 
+        $this->dispatchBrowserEvent('alerta', ['type' => 'success', 'message' => 'Usuarios desactivados con exito!']);
+
+        $this->emit('refreshDatatable');
+    }
+
+    public function sendPassword() {
+        $status = null;
+        
+        foreach($this->getSelected() as $id) {
+            $user = User::find($id);
+
+            Mail::to($user->email)->send(new RestorePassword($user));
+        }
+
+        $this->dispatchBrowserEvent('alerta', ['type' => 'success', 'message' => 'Restauración de contraseña enviada.']);
+
+        $this->emit('refreshDatatable');
+    }
+
+    public function deleteTokens() {
+        foreach($this->getSelected() as $id) {
+            DB::table('sessions')->where('user_id',$id)->delete();
+        }
+
+        $this->dispatchBrowserEvent('alerta', ['type' => 'success', 'message' => 'Todas las sesiónes han sido cerradas!']);
+
+        $this->emit('refreshDatatable');
+    }
+
     public function filters(): array
     {
         return [
@@ -170,77 +241,6 @@ class UserTable extends DataTableComponent
                 }),
         ];
     }
-
-    public function activate() {
-
-        foreach($this->getSelected() as $id) {
-
-            $user = User::find($id);
-
-            $user->status = 1;
-
-            DB::table('sessions')->where('user_id',$id)->delete();
-
-            activity()
-                ->withProperties(['useraffected' => $id])
-                ->log('Usuario activado');
-
-            $user->save();   
-
-        }
-
-        session()->flash('status', 'Usuarios activados con exito!');
- 
-        return redirect()->to('/users');
-    }
-
-    public function deactivate() {
-
-        foreach($this->getSelected() as $id) {
-
-            $user = User::find($id);
-
-            $user->status = 0;
-
-            DB::table('sessions')->where('user_id',$id)->delete();
-
-            activity()
-                ->withProperties(['useraffected' => $id])
-                ->log('Usuario desactivado');
-
-            $user->save();   
-
-        }
-
-        session()->flash('status', 'Usuarios desactivados con exito!');
- 
-        return redirect()->to('/users');
-    }
-
-    public function sendPassword() {
-        $status = null;
-        
-        foreach($this->getSelected() as $id) {
-            $user = User::find($id);
-
-            Mail::to($user->email)->send(new RestorePassword($user));
-        }
-
-        session()->flash('status', 'Restauración de contraseña enviada.');
- 
-        return redirect()->to('/users');
-    }
-
-    public function deleteTokens() {
-        foreach($this->getSelected() as $id) {
-            DB::table('sessions')->where('user_id',$id)->delete();
-        }
-
-        session()->flash('status', 'Todas las sesiónes han sido cerradas');
- 
-        return redirect()->to('/users');
-    }
-
 
     public function columns(): array
     {

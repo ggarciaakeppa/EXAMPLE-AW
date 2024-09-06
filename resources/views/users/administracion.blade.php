@@ -60,5 +60,4 @@
             <livewire:users-modal />
         </div>
     </div>
-
 </x-app-layout>

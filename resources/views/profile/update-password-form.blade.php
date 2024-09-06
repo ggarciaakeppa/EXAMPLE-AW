@@ -34,12 +34,18 @@
 		</div>
 		<!-- Submit -->
 		<x-slot name="actions">
-			<x-jet-action-message class="mr-3" on="saved">
-				{{ __('Guardando...') }}
-			</x-jet-action-message>
-			<x-jet-button class="btn w-100 btn-primary lift">
-				{{ __('Actualizar contraseña') }}
+			<x-jet-button class="btn  btn-primary lift">
+				<span wire:loading.remove>
+                    {{ __('Guardar') }}
+                </span>
+                <span wire:loading>Cargando...</span>
 			</x-jet-button>
 		</x-slot>
+		@if (session('status'))
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			{{ session('status') }}
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	@endif
 	</x-slot>
 </x-jet-form-section>

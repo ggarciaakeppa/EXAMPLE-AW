@@ -16,7 +16,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      *
      * @param  array<string, string>  $input
      */
-    public function update(User $user, array $input): void
+    public function update(User $user, array $input)
     {
         // Validar los datos de entrada
         Validator::make($input, [
@@ -50,7 +50,17 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
         // Enviar el correo de notificación solo si hay cambios
         if (!empty($updatedFields)) {
             Mail::to($user->email)->send(new UserDataUpdatedNotification($user));
+            session()->flash('message', [
+                'type' => 'success',
+                'text' => 'Datos guardados correctamente.'
+            ]);
+        } else {
+            session()->flash('message', [
+                'type' => 'info',
+                'text' => 'Sin cambios que guardar.'
+            ]);
         }
+        
     }
     
 

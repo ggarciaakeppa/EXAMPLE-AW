@@ -89,9 +89,7 @@
         <script src="{{ asset('/assets/custom/jquery/jquery-3.6.0.min.js') }}" crossorigin="anonymous"></script>
 
         @livewireScripts
-
         @stack('js')
-
         <!-- Vendor JS -->
         <script src="{{ asset('assets/js/vendor.bundle.js') }}"></script>
 

@@ -120,18 +120,27 @@
         </div>
 
         <x-slot name="actions">
-            <x-jet-button class="btn btn-primary" wire:loading.attr="disabled" wire:target="photo">
-                {{ __('Guardar') }}
+            <x-jet-button class="btn btn-primary" wire:loading.attr="disabled"> 
+                <span wire:loading.remove>
+                    {{ __('Guardar') }}
+                </span>
+                <span wire:loading>Cargando...</span>
             </x-jet-button>
             
-            <x-jet-action-message on="saved">
-                {{ __('Guardando...') }}
-            </x-jet-action-message>
             @if(!auth()->user()->can('Admin'))
             <input type ='button' class="btn btn-primary"  value = 'Salir' onclick="location.href = '/'"/>
             @endif
         </x-slot>
-        
+        @if (session()->has('message'))
+        @php
+            $message = session('message');
+            $alertClass = $message['type'] === 'success' ? 'alert-success' : 'alert-info';
+        @endphp
+        <div class="alert {{ $alertClass }} alert-dismissible fade show" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            {{ $message['text'] }}
+        </div>
+    @endif
     </x-slot>
     <hr>
 </x-jet-form-section>

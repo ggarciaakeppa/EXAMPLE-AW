@@ -76,9 +76,8 @@ class usersModal extends Component
         }
      
         Mail::to( $this->userModalData['email'])->send(new Welcome($generatedPassword,$user));
-
-        $this->emit('userCreated');
-        
+        $this->dispatchBrowserEvent('alerta', ['type' => 'success', 'message' => 'Usuario creado correctamente']);
+       
         $this->emit('refreshDatatable');
     }
 
