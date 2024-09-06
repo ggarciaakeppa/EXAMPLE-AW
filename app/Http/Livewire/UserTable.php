@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Mail\RestorePassword;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Filters\DateFilter;
@@ -14,13 +15,11 @@ use Rappasoft\LaravelLivewireTables\Views\Columns\ComponentColumn;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Validator;
-/* use Illuminate\Support\Facades\Validator; */
-/* use App\Http\Livewire\usersModalEdit; */
 use Illuminate\Support\Facades\Password as Reset;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Carbon\Carbon;
-use DB;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class UserTable extends DataTableComponent
 {
@@ -33,13 +32,6 @@ class UserTable extends DataTableComponent
     public $userModalData;
 
     public $idrol, $user;
-
-    /* protected $rules = [
-        'idrol' => 'required',
-        'userModalData.name' => 'required',
-        'userModalData.last_name' => 'required',
-        'userModalData.email' => 'required|string|email|max:255|unique:users,email,' . $this->user->id,
-    ]; */
 
     protected $messages = [
         'userModalData.name.required' => 'El nombre no puede ir vacio.',
@@ -62,56 +54,16 @@ class UserTable extends DataTableComponent
         ];
     }
 
-    /* public function mount() {
-        $this->roles = Role::all();
-    } */
-    /* public $modalUser = false; */
 
     public function configure(): void
     {
         $this->setPrimaryKey('id')->setSingleSortingDisabled();
         $this->roles = Role::all();
-        /* ->setTrAttributes(function($row, $index) {
-            return [
-                'class' => 'user-row',
-                'wire:click.prevent' => 'viewHistoryModal('.$row->id.')'
-            ];
-        }) *//* ->setTableRowUrl(function($row) {
-            return "#";
-        }); */
-        /* ->setTableRowUrl(function($row) {
-            //dd($row);
-            //$this->dispatchBrowserEvent('EditUser', $row->id);
-            // usersModalEdit::EditUser();
-            // $edit = new usersModalEdit;
-            // $edit->EditUser();
-            //return ['wire:click.prevent' => 'customView('.$row->id.')'];
-        }); */
+
     }
 
-    /* public function getTableRowUrl(): string
-    {
-        return '#';
-    } */
-
-    /* public function setTableRowAttributes($row): array
-    {
-        return ['wire:click.prevent' => 'viewHistoryModal('.$row->id.')'];
-    } */
-
     public function updateUser() {
-        /* Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'max:255'],
-            'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
-            'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
-        ])->validateWithBag('updateProfileInformation'); */
-
-        /* $this->user->name = $this->userModalData['name'];
-        $this->user->last_name = $this->userModalData['last_name'];
-        $this->user->phone = $this->userModalData['phone']; */
-
+   
         $this->validate();
 
         if ($this->userModalData['email'] !== $this->user->email &&
@@ -122,7 +74,7 @@ class UserTable extends DataTableComponent
                 'name' => $this->userModalData['name'],
                 'last_name' => $this->userModalData['last_name'],
                 'phone' => $this->userModalData['phone'],
-                'email' => $this->userModalData['email'],
+            
             ])->save();
 
             if($this->idrol != 0) {
@@ -168,9 +120,6 @@ class UserTable extends DataTableComponent
 
         $this->idrol = ($this->user->roles->pluck('id')->count() > 0) ? $this->user->roles->pluck('id')[0] : 0;
 
-        //dd($this->useridrol);
-        //$user->syncRoles($role);
-        //dd($this->userModalData);
     }
 
     public function resetModal(): void
@@ -183,11 +132,6 @@ class UserTable extends DataTableComponent
         return 'livewire.users-modal-edit';
     }
 
-    /* public function EditUser($id){
-        $this->dispatchBrowserEvent('EditUser',[
-            'id'=>$id
-        ]);
-    } */
 
     public function bulkActions(): array
     {
@@ -279,9 +223,7 @@ class UserTable extends DataTableComponent
         foreach($this->getSelected() as $id) {
             $user = User::find($id);
 
-            $status = Reset::sendResetLink(
-                $user->only('email')
-            );
+            Mail::to($user->email)->send(new RestorePassword($user));
         }
 
         session()->flash('status', 'Restauración de contraseña enviada.');

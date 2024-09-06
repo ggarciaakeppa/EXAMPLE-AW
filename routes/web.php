@@ -4,8 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomUserProfileController;
 use App\Http\Controllers\UsersController;
 use App\Http\Livewire\Ingreso\IngresoAuto;
+use App\Mail\RestorePassword;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 
 /*
@@ -22,22 +24,20 @@ use Illuminate\Support\Facades\Password;
 Route::post('/forgot-password', function (Request $request) {
     $request->validate(['email' => 'required|email']);
 
-    $user = DB::table('users')
-        ->where('email',$request->email)
-        ->first();
+    // Obtener el usuario como instancia del modelo User
+    $user = User::where('email', $request->email)->first();
 
-    if($user->status == 0 || !$user) {
+    if (!$user || $user->status == 0) {
         return back()->withErrors(['email' => "Correo no encontrado en nuestros registros"]);
     }
- 
-    $status = Password::sendResetLink(
-        $request->only('email')
-    );
- 
-    return $status === Password::RESET_LINK_SENT
-                ? back()->with(['status' => __($status)])
-                : back()->withErrors(['email' => __($status)]);
+
+    // Envía el correo de restablecimiento de contraseña
+    Mail::to($request->email)->send(new RestorePassword($user));
+
+    // Vuelve a la misma página con un mensaje de éxito
+    return back()->with('status', 'Correo de recuperación enviado correctamente.');
 })->middleware('guest')->name('password.email');
+
 
 Route::middleware([
     'auth:sanctum',

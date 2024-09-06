@@ -19,10 +19,10 @@
                     </div>
                     <div class="col-auto">
 
-                        {{-- <!-- Button -->
+                         <!-- Button -->
                         <button class="btn btn-primary lift" data-bs-toggle="modal" data-bs-target="#modalUser" id="adduser">
                             Nuevo usuario
-                        </button> --}}
+                        </button>
                         @if(auth()->user()->can('roles'))
                         <!-- Button -->
                         <button class="btn btn-primary lift" data-bs-toggle="modal" data-bs-target="#modalRolPermisions">

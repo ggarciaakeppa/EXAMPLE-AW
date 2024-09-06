@@ -3,7 +3,7 @@
 return [
   'var' => [
     "demoMode" => false,
-    "colorScheme" => "dark",
+    "colorScheme" => "light",
     "navPosition" => "sidenav",
     "sidebarSize" => "base",
     "navColor" => "default",

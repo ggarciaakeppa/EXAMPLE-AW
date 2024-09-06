@@ -2,11 +2,12 @@
 
 namespace App\Http\Livewire;
 
+use App\Mail\Welcome;
 use Livewire\Component;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 
 class usersModal extends Component
@@ -57,13 +58,15 @@ class usersModal extends Component
             $pass[] = $alphabet[$n];
         }
 
+        $generatedPassword = implode($pass);
+
         $user = User::create([
             'name' => $this->userModalData['name'],
             'last_name' => $this->userModalData['last_name'],
             'phone' => $this->userModalData['phone'],
             'email' => $this->userModalData['email'],
             'status' => 1,
-            'password' => Hash::make(implode($pass)),
+            'password' => Hash::make($generatedPassword),
         ]);
 
         if($this->idrol != 0) {
@@ -71,16 +74,12 @@ class usersModal extends Component
             $user->syncRoles($this->idrol);
 
         }
-
-        $status = Password::sendResetLink([
-            'email' => $this->userModalData['email']
-        ]);
      
-        $status === Password::RESET_LINK_SENT;
+        Mail::to( $this->userModalData['email'])->send(new Welcome($generatedPassword,$user));
 
-        session()->flash('status', 'Usuario creado con exito!');
- 
-        return redirect()->to('/users');
+        $this->emit('userCreated');
+        
+        $this->emit('refreshDatatable');
     }
 
 }

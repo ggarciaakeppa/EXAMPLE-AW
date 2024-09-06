@@ -15,7 +15,7 @@ $showarray = Config::get('theme.var');
 
     <!-- Brand -->
     <a class="navbar-brand" href="/">
-      <img src="/assets/img/logo.svg" class="navbar-brand-img mx-auto" alt="...">
+      <img src="/img/logos/logo.png" class="navbar-brand-img mx-auto" alt="...">
     </a>
 
     <!-- User (xs) -->

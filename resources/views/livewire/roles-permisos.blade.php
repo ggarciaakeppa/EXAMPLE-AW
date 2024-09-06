@@ -39,11 +39,7 @@
                             <div class="form-check" id="permisos-check">
                                 <input type="checkbox" wire:model="permission" name="permission[]" value="usuarios" id="usuarios" class="form-check-input"> <label for="usuarios">Usuarios</label><br>
                                 <input type="checkbox" wire:model="permission" name="permission[]" value="roles" id="roles" class="form-check-input"> <label for="roles">Roles</label><br>
-                                <input type="checkbox" wire:model="permission" name="permission[]" value="modificacion" id="modificacion" class="form-check-input"> <label for="ingresos">Modificación</label><br>
-                                <input type="checkbox" wire:model="permission" name="permission[]" value="reportes" id="reportes" class="form-check-input"> <label for="noticias">Reportes</label><br>
-                                <input type="checkbox" wire:model="permission" name="permission[]" value="precios" id="precios" class="form-check-input"> <label for="noticias">Precios</label><br>
-                                <input type="checkbox" wire:model="permission" name="permission[]" value="catalogo" id="catalogo" class="form-check-input"> <label for="noticias">Catalogos</label><br>
-                            </div>
+                             </div>
                         </div>
                     </div>
             </div>

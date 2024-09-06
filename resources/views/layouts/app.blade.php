@@ -9,7 +9,7 @@
         
         <!-- Favicon -->
         <!--<link rel="stylesheet" href="{{ asset('assets/vendor/font-awesome/css/font-awesome.min.css') }}">-->
-        <link rel="shortcut icon" href="{{ asset('assets/favicon/favicon.ico') }}" type="image/x-icon"/>
+        <link rel="shortcut icon" href="{{ asset('/img/logos/logo.png') }}" type="image/x-icon"/>
         
         <!-- Map CSS -->
         <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css" />
